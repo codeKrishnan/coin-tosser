@@ -1,0 +1,27 @@
+name: Open pull request
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        description: Name of the branch for the pull request
+        type: string
+        required: true
+
+jobs:
+  open-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.TOKEN }}
+          branch: ${{ github.event.inputs.branch-name }}
+          base: main  # Adjust this if your default branch is not 'main'
+          title: "Pull request for branch ${{ github.event.inputs.branch-name }}"
+          body: "This pull request is automatically created for branch ${{ github.event.inputs.branch-name }}."
+          draft: false  # Set to true if you want to create a draft PR
