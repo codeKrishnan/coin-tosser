@@ -3,8 +3,8 @@ name: Open pull request
 on:
   workflow_dispatch:
     inputs:
-      branch-name:
-        description: Name of the branch for the pull request
+      pr-title:
+        description: Title of the pull request
         type: string
         required: true
 
@@ -16,12 +16,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Print branch name
+        run: |
+          echo ${{ github.ref_name }}
+
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ secrets.TOKEN }}
-          branch: ${{ github.event.inputs.branch-name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref_name }}
           base: main  # Adjust this if your default branch is not 'main'
-          title: "Pull request for branch ${{ github.event.inputs.branch-name }}"
-          body: "This pull request is automatically created for branch ${{ github.event.inputs.branch-name }}."
+          title: ${{ github.event.inputs.pr-title }}
+          body: "This pull request is automatically created from branch ${{ github.ref_name }}."
           draft: false  # Set to true if you want to create a draft PR
