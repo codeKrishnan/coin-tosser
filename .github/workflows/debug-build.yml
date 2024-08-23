@@ -6,6 +6,7 @@ on:
      release-version:
       description: Name of the release
       required: true
+      type: string
 
 jobs:
   debug-build:
