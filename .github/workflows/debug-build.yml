@@ -20,7 +20,7 @@ jobs:
         with:
          gradlePath: app/build.gradle.kts
          versionCode: '${{ github.run_number }}'
-         versionName: ${{ github.events.inputs.release-version }}
+         versionName: ${{ inputs.release-version }}
 
       - name: Setup Java 11
         uses: actions/setup-java@v4
