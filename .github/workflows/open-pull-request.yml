@@ -20,11 +20,7 @@ jobs:
         run: |
           echo ${{ github.ref_name }}
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          base: main  # Adjust this if your default branch is not 'main'
-          title: ${{ github.event.inputs.pr-title }}
-          body: "This pull request is automatically created from branch ${{ github.ref_name }}."
-          draft: false  # Set to true if you want to create a draft PR
+      - name: create pull request
+        run: gh pr create -B ${{ github.ref_name }} -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
