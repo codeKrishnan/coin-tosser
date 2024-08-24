@@ -18,6 +18,7 @@ jobs:
       - name: Print head ref and context
         run: |
           echo "${{ github.head_ref }}"
+          echo "${{ github.ref_name }}"
           echo "${{ github.ref }}"
           echo "${{ github.job }}"
           echo "${{ github.run_id }}"
