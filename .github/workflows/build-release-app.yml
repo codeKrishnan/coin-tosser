@@ -64,14 +64,14 @@ jobs:
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: release-artifacts
+          name: release-apk
           path: |
             app/build/outputs/bundle/release/
 
       - name: Upload Release Bundle
         uses: actions/upload-artifact@v4
         with:
-          name: release-artifacts
+          name: release-aab
           path: |
             app/build/outputs/bundle/release/            
 
