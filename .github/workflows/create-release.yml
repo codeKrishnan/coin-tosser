@@ -6,6 +6,22 @@ on:
       - main
 
 jobs:
+  print-head-ref:
+    name: Print head ref
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print workflow trigger and inputs
+        run: |
+          echo "Workflow trigger: ${{ github.event_name }}"
+          # Print any workflow inputs here if applicable
+
+      - name: Print head ref and context
+        run: |
+          echo "${{ github.head_ref }}"
+          echo "${{ github.ref }}"
+          echo "${{ github.job }}"
+          echo "${{ github.run_id }}"
+
   release:
     name: Release on merge to main
     runs-on: ubuntu-latest
