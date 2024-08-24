@@ -49,8 +49,8 @@ jobs:
     needs: setup
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Build Release APK
         env:
@@ -65,8 +65,8 @@ jobs:
     needs: setup
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Build Release AAB
         env:
