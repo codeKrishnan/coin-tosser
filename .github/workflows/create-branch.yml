@@ -1,0 +1,35 @@
+name: Create Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        description: 'Name of the new branch'
+        required: true
+        type: string
+      base-branch:
+        description: 'Base branch to create the new branch from (default: main)'
+        required: false
+        type: string
+        default: 'main'
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.base-branch }}  # Checkout the base branch
+
+      - name: Create new branch
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout -b ${{ github.event.inputs.branch-name }}
+
+      - name: Push new branch to origin
+        run: git push origin ${{ github.event.inputs.branch-name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
