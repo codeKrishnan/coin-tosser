@@ -1,0 +1,26 @@
+name: Create release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    name: Release on merge to main
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release/')
+    steps:
+      - name: Extract release tag
+        id: extract_tag
+        run: echo "tag=${GITHUB_HEAD_REF#release/}" >> $GITHUB_ENV
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          tag: ${{ env.tag }}
+        run: |
+          gh release create "v${tag}" \
+              --repo="$GITHUB_REPOSITORY" \
+              --title="v${tag}" \
+              --generate-notes
