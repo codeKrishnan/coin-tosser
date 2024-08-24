@@ -1,3 +1,3 @@
 This is the readme file
 
-Release 1.0.0
+Release v1.0.0
