@@ -109,6 +109,7 @@ jobs:
       - name: Check if pull request exists
         id: pr-check
         run: |
+          echo $BRANCH_NAME
           gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0'
 
       - name: Create pull request (if not exists)
