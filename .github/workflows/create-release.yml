@@ -17,11 +17,11 @@ jobs:
 
       - name: Print head ref and context
         run: |
-          echo "${{ github.head_ref }}"
-          echo "${{ github.ref_name }}"
-          echo "${{ github.ref }}"
-          echo "${{ github.job }}"
-          echo "${{ github.run_id }}"
+          echo "head_ref: ${{ github.head_ref }}"
+          echo "ref_name: ${{ github.ref_name }}"
+          echo "ref: ${{ github.ref }}"
+          echo "job: ${{ github.job }}"
+          echo "run_id: ${{ github.run_id }}"
 
   release:
     name: Release on merge to main
