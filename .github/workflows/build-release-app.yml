@@ -87,3 +87,33 @@ jobs:
           name: release-aab
           path: |
             app/build/outputs/bundle/release/
+
+  create-pr:
+    runs-on: ubuntu-latest
+    needs: [upload-apk, upload-aab]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create or switch to release branch
+        run: |
+          BRANCH_NAME="release/${{ github.event.inputs.version-name }}"
+          git fetch origin
+          if git show-ref --quiet refs/heads/origin/$BRANCH_NAME; then
+            git checkout $BRANCH_NAME
+          else
+            git checkout -b $BRANCH_NAME origin/develop
+            git push origin $BRANCH_NAME
+          fi
+
+      - name: Check if pull request exists
+        id: pr-check
+        run: |
+          gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0'
+
+      - name: Create pull request (if not exists)
+        if: steps.pr-check.outputs.result == 'false'
+        run: |
+          gh pr create -B main -H $BRANCH_NAME --title "Release ${{ github.event.inputs.version-name }}" --body "Release ${{ github.event.inputs.version-name }} PR"
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
