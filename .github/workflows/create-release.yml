@@ -37,7 +37,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          gh release create "v${tag}" \
+          gh release create "v${{ env.ref_name }}" \
               --repo="$GITHUB_REPOSITORY" \
               --title="v${{ env.ref_name }}" \
               --generate-notes
