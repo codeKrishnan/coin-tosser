@@ -102,7 +102,7 @@ jobs:
           if git show-ref --quiet refs/heads/origin/$BRANCH_NAME; then
             git checkout $BRANCH_NAME
           else
-            git checkout -b $BRANCH_NAME origin/develop
+            git checkout -b $BRANCH_NAME origin/${{ github.ref_name }}
             git push origin $BRANCH_NAME
           fi
 
