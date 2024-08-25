@@ -115,12 +115,13 @@ jobs:
         id: pr-check
         run: |
           echo "$BRANCH_NAME"
-          gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0'
+          PR_EXISTS=gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0'
+          echo "pr_exists=$PR_EXISTS" >> $GITHUB_OUTPUT
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create pull request (if not exists)
-        if: steps.pr-check.outputs.result == 'false'
+        if: steps.pr-check.outputs.pr_exists == 'false'
         run: |
           gh pr create -B main -H $BRANCH_NAME --title "Release ${{ github.event.inputs.version-name }}" --body "Release ${{ github.event.inputs.version-name }} PR"
         env:
