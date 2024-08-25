@@ -10,7 +10,6 @@ jobs:
   print-head-ref:
     name: Print head ref
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Print workflow trigger and inputs
         run: |
@@ -28,7 +27,7 @@ jobs:
   release:
     name: Release on merge to main
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'release/')
+    if: startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Extract release tag
         id: extract_tag
