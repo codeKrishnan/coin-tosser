@@ -95,9 +95,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create or switch to release branch
+      - name: Get branch name
+        id: get-branch-name
         run: |
           BRANCH_NAME="release/${{ github.event.inputs.version-name }}"
+          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+
+      - name: Create or switch to release branch
+        run: |
           git fetch origin
           if git show-ref --quiet refs/heads/origin/$BRANCH_NAME; then
             git checkout $BRANCH_NAME
@@ -109,14 +114,14 @@ jobs:
       - name: Check if pull request exists
         id: pr-check
         run: |
-          BRANCH_NAME="release/${{ github.event.inputs.version-name }}"
           echo "$BRANCH_NAME"
           gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0'
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Create pull request (if not exists)
         if: steps.pr-check.outputs.result == 'false'
         run: |
-          BRANCH_NAME="release/${{ github.event.inputs.version-name }}"
           gh pr create -B main -H $BRANCH_NAME --title "Release ${{ github.event.inputs.version-name }}" --body "Release ${{ github.event.inputs.version-name }} PR"
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
