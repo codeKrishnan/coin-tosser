@@ -36,7 +36,7 @@ jobs:
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          tag: ${{ env.tag }}
+          tag: ${{ env.ref_name }}
         run: |
           gh release create "v${tag}" \
               --repo="$GITHUB_REPOSITORY" \
