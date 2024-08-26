@@ -1,0 +1,25 @@
+name: Check if branch exists
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        type: string
+        required: true
+        description: Branch name
+
+jobs:
+  check-if-branch-exists:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check if branch exists
+        run: |
+          git fetch origin
+          if git ls-remote --heads origin ${{ github.event.inputs.branch-name }} | grep ${{ github.event.inputs.branch-name }}; then
+            echo "Branch exists"
+          else
+            echo "Branch does not exist"
+          fi

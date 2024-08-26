@@ -1,0 +1,20 @@
+name: Check If PR Exist
+
+on:
+  workflow_dispatch:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check if pull request exists
+      id: pr-check
+      run: |
+        PR_EXISTS=$(gh pr list --head $BRANCH_NAME --state open --json number --jq '. | length > 0')
+        echo "$PR_EXISTS"
+        env:
+        GH_TOKEN: ${{ secrets.TOKEN }}
+        BRANCH_NAME: ${{ github.ref_name }}
