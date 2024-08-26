@@ -18,10 +18,8 @@ jobs:
       - name: Check if branch exists
         run: |
           git fetch origin
-          if git ls-remote --heads origin $BRANCH_NAME | grep $BRANCH_NAME; then
+          if git ls-remote --heads origin ${{ github.event.inputs.branch-name }} | grep ${{ github.event.inputs.branch-name }}; then
             echo "Branch exists"
           else
             echo "Branch does not exist"
           fi
-        env:
-          BRANCH_NAME: github.event.inputs.branch-name
