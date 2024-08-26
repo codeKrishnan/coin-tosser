@@ -20,6 +20,7 @@ jobs:
         run: |
           git fetch origin
           if git show-ref --quiet refs/heads/origin/${{ github.event.inputs.branch-name }}; then
-            echo "Branch exist"
+            echo "Branch exists"
           else
-            echo "Brand does not exist"
+            echo "Branch does not exist"
+          fi
