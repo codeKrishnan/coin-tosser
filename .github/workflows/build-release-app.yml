@@ -1,6 +1,9 @@
 name: Release build
 
 on:
+  push:
+    branches:
+      - release/*
   workflow_dispatch:
     inputs:
       version-name:
@@ -59,6 +62,10 @@ jobs:
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
         run: ./gradlew bundleRelease
+
+      - name: Print commit message
+        run: |
+         echo "commit message: ${{ github.event.head_commit.message }}"
 
   upload-apk:
     runs-on: ubuntu-latest
