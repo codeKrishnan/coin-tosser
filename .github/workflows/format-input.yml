@@ -1,0 +1,19 @@
+name: Format input
+
+on:
+  workflow_dispatch:
+    inputs:
+      text-input:
+        type: string
+        required: true
+        description: "Text"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Format input
+        id: format-input
+        run: |
+          echo ""${{ toJson(github.event.inputs.text-input) }}""
