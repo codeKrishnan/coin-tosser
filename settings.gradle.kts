@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Coin Tosser"
 include(":app")
- 
+include(":UppercaseModule")
